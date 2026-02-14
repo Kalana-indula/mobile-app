@@ -78,7 +78,7 @@ const login=async (req,res)=>{
         }
 
         //get the user by email an fetch the password
-        const user = await User.findOne({email}).select('password');
+        const user = await User.findOne({email}).select('+password');
 
         if(!user){
             return res.status(401).json({
@@ -113,3 +113,23 @@ const login=async (req,res)=>{
         })
     }
 }
+
+//@desc GET Current logged in user
+//@route GET /api/v1/auth/me
+//@access Private
+const getMe = async (req,res)=>{
+    try{
+        const user=await User.findById(req.user.id);
+        res.status(200).json({
+            success:true,
+            data:user
+        });
+    }catch (error){
+        res.status(500).json({
+            success:false,
+            error:error.message
+        })
+    }
+};
+
+module.exports={signup,login,getMe}

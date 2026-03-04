@@ -1,16 +1,16 @@
-const Customer = require("../models/Customer");
+const Product = require("../models/Product");
 
-//@desc Get all customer
-//@route GET /api/v1/customers
+//@desc Get all products
+//@route GET /api/v1/products
 //@access Private
-const getCustomers = async (req,res)=>{
+const getProducts = async (req,res)=>{
     try{
-        const customers = await Customer.find();
+        const products = await Product.find();
         res.status(200).json({
             success:true,
-            count:customers.length,
-            data:customers
-        })
+            count:products.length,
+            data:products
+        });
     }catch(error){
         res.status(500).json({
             success:false,
@@ -19,23 +19,23 @@ const getCustomers = async (req,res)=>{
     }
 }
 
-//@desc Get a single customer
-//@route GET /api/v1/customers/:id
+//@desc Get a single product
+//@route GET /api/v1/products/:id
 //@access Private
-const getCustomer = async (req,res)=>{
+const getProduct = async (req,res)=>{
     try{
-        const customer = await Customer.findById(req.params.id);
+        const product = await Product.findById(req.params.id);
 
-        if(!customer){
+        if(!product){
             return res.status(404).json({
                 success:false,
-                message:"No Customer Found"
+                message:"No Product Found"
             });
         }
 
         res.status(200).json({
             success:true,
-            data:customer
+            data:product
         })
     }catch(error){
         res.status(500).json({
@@ -45,16 +45,16 @@ const getCustomer = async (req,res)=>{
     }
 }
 
-//@desc create a customer
-//@route POST /api/v1/customers
+//@desc create a product
+//@route POST /api/v1/products
 //@access Private
-const createCustomer = async (req,res)=>{
+const createProduct = async (req,res)=>{
     try{
-        const customer = await Customer.create(req.body);
+        const product = await Product.create(req.body);
 
         res.status(201).json({
             success:true,
-            data:customer
+            data:product
         })
     }catch(error){
         res.status(500).json({
@@ -64,26 +64,26 @@ const createCustomer = async (req,res)=>{
     }
 }
 
-//@desc create a customer
-//@route PUT /api/v1/customers/:id
+//@desc update a product
+//@route PUT /api/v1/products/:id
 //@access Private
-const updateCustomer = async (req,res)=>{
+const updateProduct = async (req,res)=>{
     try{
-        const customer = await Customer.findByIdAndUpdate(
+        const product = await Product.findByIdAndUpdate(
             req.params.id,
             req.body,
             {new:true,runValidators:true});
 
-        if(!customer){
+        if(!product){
             return res.status(404).json({
-                success:false,
-                message:"No Customer Found"
+                success:true,
+                message:"No Product Found"
             })
         }
 
         res.status(200).json({
             success:true,
-            data:customer
+            data:product
         });
     }catch(error){
         res.status(400).json({
@@ -96,21 +96,21 @@ const updateCustomer = async (req,res)=>{
 //@desc delete a customer
 //@route DELETE /api/v1/customers/:id
 //@access Private
-const deleteCustomer = async (req,res)=>{
+const deleteProduct = async (req,res)=>{
     try{
-        const customer = await Customer.findByIdAndUpdate(req.params.id);
+        const product = await Product.findByIdAndUpdate(req.params.id);
 
-        if(!customer){
+        if(!product){
             return res.status(404).json({
                 success:true,
-                message:"customer not found"
+                message:"product not found"
             })
         }
 
         res.status(200).json({
             success:true,
             data:{},
-            message:'customer has been deleted successfully'
+            message:'product has been deleted successfully'
         });
     }catch(error){
         res.status(400).json({
@@ -121,9 +121,9 @@ const deleteCustomer = async (req,res)=>{
 }
 
 module.exports = {
-    getCustomers,
-    createCustomer,
-    updateCustomer,
-    deleteCustomer,
-    getCustomer
+    getProducts,
+    getProduct,
+    createProduct,
+    updateProduct,
+    deleteProduct
 }
